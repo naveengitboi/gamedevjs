@@ -1,5 +1,21 @@
-
-
+*{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+.controls
+{
+    padding: 0.5rem;
+    background-color: white;
+    z-index: 10000;
+    display: flex ;
+    justify-content: center;
+    align-items: center;
+}
+.controls input
+{
+    width: 200px;
+}
 #canvas1
 {
     width: 800px;
@@ -9,5 +25,6 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    z-index: -1;
     
 }

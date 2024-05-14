@@ -5,7 +5,12 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+.selections
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 #canvas1
 {
     width: 600px;

@@ -4,13 +4,16 @@
     box-sizing: border-box;
 }
 
-#canvas1
+.canvasContainer
 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform:translate(-50%, -50%);
-    height: 1000px;
-    border: 2px solid;
-    width: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#canvas1, #canvas2
+{
+    
+   border: 3px solid;
 }

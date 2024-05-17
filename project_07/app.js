@@ -14,7 +14,7 @@ class Game {
         this.enemies = []
         this.enemyInterval = 1000;
         this.enemyTimer = 0;
-        this.enemyTypes = ['worm', 'ghost']
+        this.enemyTypes = ['worm', 'ghost', 'spider']
         this.#addEnemy();
     }
 
@@ -42,6 +42,9 @@ class Game {
         if (randomEnemy == this.enemyTypes[1]) {
             this.enemies.push(new Ghost(this))
         }
+        if (randomEnemy == this.enemyTypes[2]) {
+            this.enemies.push(new Spider(this))
+        }
     }
 }
 
@@ -54,12 +57,20 @@ class Enemy {
         this.width = 100;
         this.height = 100;
         this.markDeletion = false;
+        this.frameInterval = 100;
+        this.frameTimer = 0;
     }
 
     update(deltaTime) {
         this.x -= (this.vx*deltaTime);
         this.angle += Math.random()*0.5;
-        this.frames <= 4 ? this.frames++: this.frames = 0;
+        if(this.frameTimer > this.frameInterval){
+            this.frames <= 4 ? this.frames++: this.frames = 0;
+            this.frameTimer = 0
+        }
+        else{
+            this.frameTimer += deltaTime
+        }
         if(this.x < - this.width){
             this.markDeletion = true
         }
@@ -108,14 +119,49 @@ class Ghost extends Enemy{
         this.y += Math.sin(this.angle)*this.curve;
         this.angle += 0.015;
     }
-    draw(){
+    draw(ctx){
         ctx.save()
         ctx.globalAlpha = 0.7;
         super.draw(ctx)
         ctx.restore()
     }
 }
+class Spider extends Enemy {
+    constructor(game) {
+        super(game)
 
+        this.spriteWidth = 310;
+        this.spriteHeight = 175;
+        this.image = spider
+        this.x = Math.random()*this.game.width;
+        this.width = this.spriteWidth * 0.5
+        this.height = this.spriteHeight * 0.5
+        this.y = - this.height;
+
+        this.vx = 0;
+        this.vy = Math.random()*0.1 + 0.5
+        this.frames = 0
+        this.maxDown = Math.random()*this.game.height
+    }
+
+    update(deltaTime){
+        super.update(deltaTime);
+        this.y += this.vy
+        if(this.y > this.maxDown) this.vy *= -1;
+        if(this.y < 0 -this.height ) {
+            this.markDeletion = true;
+        }
+    }
+
+    draw(ctx){
+        ctx.beginPath();
+        ctx.moveTo(this.x + this.width/2 , 0);
+        ctx.lineTo(this.x + this.width/2, this.y + 10);
+        ctx.stroke();
+        super.draw(ctx);
+        
+    }
+}
 
 const game = new Game(ctx, canvas.width, canvas.height);
 
